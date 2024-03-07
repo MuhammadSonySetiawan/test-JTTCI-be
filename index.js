@@ -4,8 +4,25 @@ const port = 8000
 const bodyParser = require('body-parser')
 const db = require('./conection')
 const response = require("./response")
+const helmet = require('helmet')
+const xssClean = require('xss-clean')
+const cors = require('cors')
+const compression = require('compression')
 
 app.use(bodyParser.json())
+
+// Use helmet
+app.use(helmet())
+
+// Use xss-clean
+app.use(xssClean())
+
+// Use cors
+app.use(cors())
+
+// use compression
+app.use(compression())
+
 
 app.get("/", (req, res) => {
   response(200, "API V1 Ready to go", "SUCCESS", res)
@@ -22,9 +39,10 @@ app.get("/karyawan", (req, res) => {
 });
 
 app.post("/karyawan", (req, res) => {
-  const {nim, nama_lengkap, kelas, alamat } = req.body
+  const { idcard, name, pekerjaan } = req.body;
+  console.log(req.body)
 
-  const sql = `INSERT INTO karyawan (nim, nama_lengkap, kelas, alamat) VALUES ('${nim}', '${nama_lengkap}', '${kelas}', '${alamat}')`
+  const sql = `INSERT INTO karyawan (idcard, name, pekerjaan) VALUES ('${idcard}', '${name}', '${pekerjaan}')`;
 
   db.query(sql, (error, result) => {
     if(error) response(500, "Invalid", "gagal menambah data", res)
@@ -38,10 +56,11 @@ app.post("/karyawan", (req, res) => {
   })
 });
 
-app.put("/karyawan", (req, res) => {
-  const { nim, nama_lengkap, kelas, alamat } = req.body
+app.put("/karyawan/:id", (req, res) => {
+  const { id } = req.params;
+  const { idcard, name, pekerjaan } = req.body;
   
-  const sql = `UPDATE karyawan SET nama_lengkap = '${nama_lengkap}', kelas = '${kelas}', alamat = '${alamat}' WHERE  nim = ${nim}`
+  const sql = `UPDATE karyawan SET idcard = '${idcard}', name = '${name}', pekerjaan = '${pekerjaan}' WHERE  id = ${id}`;
 
   db.query(sql, (error, result) => {
     if (error) response(500, error, "Invalid", res); 
@@ -57,9 +76,9 @@ app.put("/karyawan", (req, res) => {
   })
 });
 
-app.delete("/karyawan", (req, res) => {
-  const { nim } = req.body
-  const sql = `DELETE FROM karyawan WHERE nim = ${nim}`
+app.delete("/karyawan/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM karyawan WHERE id = ${id}`
   db.query(sql, (error, result) => {
     if (error) response(500, "Invalid", "error" ,res)
           const data = {
@@ -84,9 +103,9 @@ app.get("/jabatan", (req, res) => {
 });
 
 app.post("/jabatan", (req, res) => {
-  const { nim, nama_lengkap, kelas, alamat } = req.body;
-
-  const sql = `INSERT INTO jabatan (nim, nama_lengkap, kelas, alamat) VALUES ('${nim}', '${nama_lengkap}', '${kelas}', '${alamat}')`;
+  const { idcard, name, jabatan } = req.body;
+  console.log(req.body)
+  const sql = `INSERT INTO jabatan (idcard, name, jabatan) VALUES ('${idcard}', '${name}', '${jabatan}')`;
 
   db.query(sql, (error, result) => {
     if (error) response(500, "Invalid", "gagal menambah data", res);
@@ -100,11 +119,12 @@ app.post("/jabatan", (req, res) => {
   });
 });
 
-app.put("/jabatan", (req, res) => {
-  const { nim, nama_lengkap, kelas, alamat } = req.body;
+app.put("/jabatan/:id", (req, res) => {
+  const {id} = req.params
+  const { idcard, name, jabatan } = req.body;
 
-  const sql = `UPDATE jabatan SET nama_lengkap = '${nama_lengkap}', kelas = '${kelas}', alamat = '${alamat}' WHERE  nim = ${nim}`;
-
+  const sql = `UPDATE jabatan SET idcard = '${idcard}', name = '${name}', jabatan = '${jabatan}' WHERE  id = ${id}`;
+ 
   db.query(sql, (error, result) => {
     if (error) response(500, error, "Invalid", res);
     if (result?.affectedRows) {
@@ -118,10 +138,10 @@ app.put("/jabatan", (req, res) => {
     }
   });
 });
-
-app.delete("/jabatan", (req, res) => {
-  const { nim } = req.body;
-  const sql = `DELETE FROM jabatan WHERE nim = ${nim}`;
+    
+app.delete("/jabatan/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM jabatan WHERE id = ${id}`;
   db.query(sql, (error, result) => {
     if (error) response(500, "Invalid", "error", res);
     const data = {
@@ -146,9 +166,9 @@ app.get("/kontrak", (req, res) => {
 });
 
 app.post("/kontrak", (req, res) => {
-  const { nim, nama_lengkap, kelas, alamat } = req.body;
+  const { idcard, name, kontrak } = req.body;
 
-  const sql = `INSERT INTO kontrak (nim, nama_lengkap, kelas, alamat) VALUES ('${nim}', '${nama_lengkap}', '${kelas}', '${alamat}')`;
+  const sql = `INSERT INTO kontrak (idcard, name, kontrak) VALUES ('${idcard}', '${name}', '${kontrak}')`;
 
   db.query(sql, (error, result) => {
     if (error) response(500, "Invalid", "gagal menambah data", res);
@@ -162,10 +182,11 @@ app.post("/kontrak", (req, res) => {
   });
 });
 
-app.put("/kontrak", (req, res) => {
-  const { nim, nama_lengkap, kelas, alamat } = req.body;
+app.put("/kontrak/:id", (req, res) => {
+  const { id } = req.params;
+   const { idcard, name, kontrak } = req.body;
 
-  const sql = `UPDATE kontrak SET nama_lengkap = '${nama_lengkap}', kelas = '${kelas}', alamat = '${alamat}' WHERE  nim = ${nim}`;
+  const sql = `UPDATE kontrak SET idcard = '${idcard}', name = '${name}', kontrak = '${kontrak}' WHERE  id = ${id}`;
 
   db.query(sql, (error, result) => {
     if (error) response(500, error, "Invalid", res);
@@ -181,9 +202,9 @@ app.put("/kontrak", (req, res) => {
   });
 });
 
-app.delete("/kontrak", (req, res) => {
-  const { nim } = req.body;
-  const sql = `DELETE FROM kontrak WHERE nim = ${nim}`;
+app.delete("/kontrak/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM kontrak WHERE id = ${id}`;
   db.query(sql, (error, result) => {
     if (error) response(500, "Invalid", "error", res);
     const data = {
