@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2024 at 06:42 AM
+-- Generation Time: Mar 07, 2024 at 12:59 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -39,7 +39,10 @@ CREATE TABLE `jabatan` (
 --
 
 INSERT INTO `jabatan` (`id`, `idcard`, `name`, `jabatan`) VALUES
-(1, 123123, 'danang', 'admin');
+(1, 123123, 'danang', 'admin'),
+(9, 13212, 'sony', 'barista'),
+(10, 12135, 'dani', 'manager'),
+(11, 3232323, 'putri', 'manager');
 
 -- --------------------------------------------------------
 
@@ -50,15 +53,9 @@ INSERT INTO `jabatan` (`id`, `idcard`, `name`, `jabatan`) VALUES
 CREATE TABLE `karyawan` (
   `id` int(11) NOT NULL,
   `idcard` int(11) NOT NULL,
-  `nama` varchar(11) NOT NULL
+  `name` varchar(11) NOT NULL,
+  `pekerjaan` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `karyawan`
---
-
-INSERT INTO `karyawan` (`id`, `idcard`, `nama`) VALUES
-(1, 123123, 'danang');
 
 -- --------------------------------------------------------
 
@@ -69,7 +66,7 @@ INSERT INTO `karyawan` (`id`, `idcard`, `nama`) VALUES
 CREATE TABLE `kontrak` (
   `id` int(11) NOT NULL,
   `idcard` int(11) NOT NULL,
-  `nama` varchar(11) NOT NULL,
+  `name` varchar(11) NOT NULL,
   `kontrak` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -77,7 +74,7 @@ CREATE TABLE `kontrak` (
 -- Dumping data for table `kontrak`
 --
 
-INSERT INTO `kontrak` (`id`, `idcard`, `nama`, `kontrak`) VALUES
+INSERT INTO `kontrak` (`id`, `idcard`, `name`, `kontrak`) VALUES
 (1, 123123, 'dannag', 'aktif');
 
 --
@@ -110,19 +107,19 @@ ALTER TABLE `kontrak`
 -- AUTO_INCREMENT for table `jabatan`
 --
 ALTER TABLE `jabatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `karyawan`
 --
 ALTER TABLE `karyawan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `kontrak`
 --
 ALTER TABLE `kontrak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
